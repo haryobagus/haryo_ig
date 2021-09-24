@@ -1,0 +1,54 @@
+{% extends 'layouts/app.html' %}
+
+{% block css %}
+    <link href="{{ url_for('static', filename='select2/dist/css/select2.min.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <!-- OVERVIEW -->
+    <div class="panel panel-headline">
+        <div class="panel-heading">
+            <h3 class="panel-title">Scrape IG Captions</h3>
+        </div>
+    </div>
+    
+    <div class="panel">
+        <div class="panel-body">
+            <form action="/dataset/store" method="post">
+                <div class="form-group">
+                    <label>Username</label> <br>
+                    <select id="select-username" style="width: 100%" name="id_username" required>
+                        <option value="" style="display: none">--- Pilih Salah Satu ---</option>
+                        {% for u in usernames %}
+                            <option value="{{ u['id'] }}">{{ u['username'] }}</option>
+                        {% endfor %}
+                    </select>
+                    {# <input type="text" name="username" maxlength="50" class="form-control" required> #}
+                </div>
+                <div class="form-group">
+                    <label>Jumlah Maximum Caption</label>
+                    <input type="number" name="count" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Klasifikasi Default</label>
+                    <select name="id_klasifikasi" class="form-control" required>
+                        <option value="" style="display: none">-- Pilih Salah Satu --</option>
+                        {% for kelas in klasifikasi %}
+                            <option value="{{ kelas['id'] }}"> {{ kelas['nama'] }} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary pull-right">Scrape</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+{% block script %} 
+    <script src="{{ url_for('static', filename='select2/dist/js/select2.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#select-username').select2();
+        } );
+    </script>
+{% endblock %}

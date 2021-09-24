@@ -1,0 +1,26 @@
+<!-- Modal -->
+<div class="modal fade" id="algoritmaBACKPRO" tabindex="-1" role="dialog" 
+    aria-labelledby="algoritmaBACKPROLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h5 class="modal-title" id="exampleModalLabel">Lihat Hasil Algoritma Backpropagation</h5>
+        </div>
+        <form action="/algoritma/backpro" method="get">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Nilai K untuk K-Fold Cross Validation</label>
+                    <input type="number" name="k" maxlength="50" value="10" min="2" class="form-control" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-empty" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Lanjutkan</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

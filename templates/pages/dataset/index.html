@@ -1,0 +1,118 @@
+{% extends 'layouts/app.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/datatables.min.css') }}">
+    <link href="{{ url_for('static', filename='select2/dist/css/select2.min.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <!-- OVERVIEW -->
+    <div class="panel panel-headline">
+        <div class="panel-heading">
+            <div class="pull-right">
+                <a href="/dataset/scrape" class="btn btn-md btn-primary" title="Scrape IG Captions.">
+                    <i class="fa fa-download"></i>
+                </a>
+            </div>
+            <h3 class="panel-title">Dataset</h3>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-body">
+            <div class="table-responsive m-b-40">
+                <table class="table table-bordered datatable">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Username</th>
+                            <th>Tanggal Caption</th>
+                            <th>Tanggal Scraping</th>
+                            <th>Caption</th>
+                            {# <th>Casefolding</th>
+                            <th>Cleansing</th>
+                            <th>Filtering</th> #}
+                            <th>Stemming</th>
+                            <th>Klasifikasi</th>
+                            <th class="text-center">Opsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in data %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ item['username'] }}</td>
+                                <th>{{ item['dtime'] }}</th>
+                                <th>{{ item['tanggal_scraping'] }}</th>
+                                <td>{{ item['caption'][0: 99]+"..." if item['caption']|length > 100 else item['caption'] }}</td>
+                                {# <td>{{ item['casefolding'][0: 99]+"..." if item['casefolding']|length > 100 else item['casefolding'] }}</td>
+                                <td>{{ item['cleansing'][0: 99]+"..." if item['cleansing']|length > 100 else item['cleansing'] }}</td>
+                                <td>{{ item['filtering'][0: 99]+"..." if item['filtering']|length > 100 else item['filtering'] }}</td> #}
+                                <td>{{ item['stemming'][0: 99]+"..." if item['stemming']|length > 100 else item['stemming'] }}</td>
+                                <td>
+                                    <select name="class" class="form-control class_input" style="width:100px" data-data_id="{{ item['id'] }}">
+                                        {% for kelas in klasifikasi %}
+                                            <option value="{{ kelas['id'] }}" 
+                                            {{ 'selected' if kelas['id'] == item['id_klasifikasi'] }}
+                                            >{{ kelas['nama'] }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td class="text-center" width="12%">
+                                    <a class="btn btn-sm btn-danger" data-toggle="modal" 
+                                        data-target="#deleteData_{{ item['id'] }}" 
+                                        href="#" title="Hapus Data.">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-info" data-toggle="modal" 
+                                        data-target="#detailData_{{ item['id'] }}" 
+                                        href="#" title="Detail Caption.">
+                                        <i class="fa fa-info"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% for item in data %}
+        {% include 'pages/dataset/modal/delete.html' %}
+        {% include 'pages/dataset/modal/detail.html' %}
+    {% endfor %}
+
+    <div id="message" style="display:none;"> 
+        <h1>Mohon tunggu sebentar...</h1> 
+    </div> 
+{% endblock %}
+{% block script %} 
+    <script src="{{ url_for('static', filename='js/datatables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sweetalert.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.blockUI.js') }}"></script>
+    <script src="{{ url_for('static', filename='select2/dist/js/select2.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.datatable').DataTable();
+            $('#select-username').select2();
+        } );
+        $('.class_input').change(function() { 
+            $.blockUI({ message: $('#message') }); 
+            const data_id = $(this).data("data_id"); // ambil data_id yang mau dirubah kelasnya
+            const id_klasifikasi = $(this).val(); // ambil id_klasifikasi kelas yang baru
+            // kirim request ke url di bawah dengan isi data_id dan id_klasifikasi
+            $.ajax({
+                url: 'http://localhost:5000/dataset/change-class?data_id=' + data_id + '&id_klasifikasi=' + id_klasifikasi,
+                type: 'get'
+            })
+            .done(function(response) {
+                swal({
+                    title: "Sukses",
+                    text: response.message,
+                    icon: "success"
+                });
+                $.unblockUI();
+            })
+        });
+    </script>
+{% endblock %}

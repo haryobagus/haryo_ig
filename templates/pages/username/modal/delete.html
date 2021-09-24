@@ -1,0 +1,23 @@
+<!-- Modal -->
+<div class="modal fade" id="deleteUsername_{{ item['id'] }}" tabindex="-1" role="dialog" 
+    aria-labelledby="deleteUsernameLabel_{{ item['id']}}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h5 class="modal-title" id="exampleModalLabel">Hapus Username</h5>
+        </div>
+        <form action="/username/{{ item['id'] }}/delete" method="POST">
+            <div class="modal-body">
+                Apakah anda yakin ingin menghapus username @{{ item['username'] }}?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-empty" data-dismiss="modal">Tidak</button>
+                <button type="submit" class="btn btn-danger">Ya</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

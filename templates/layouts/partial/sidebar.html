@@ -1,0 +1,30 @@
+
+<!-- LEFT SIDEBAR -->
+<div id="sidebar-nav" class="sidebar">
+    <div class="sidebar-scroll">
+        <nav>
+            <ul class="nav">
+                <li><a href="/" class=""><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
+                {% if 'user' in session %}
+                    <li><a href="/users" class=""><i class="lnr lnr-users"></i> <span>Users</span></a></li>
+                    <li><a href="/klasifikasi" class=""><i class="lnr lnr-tag"></i> <span>Klasifikasi</span></a></li>
+                    <li><a href="/username" class=""><i class="fa fa-instagram"></i> <span>Username</span></a></li>
+                    <li><a href="/dataset" class=""><i class="lnr lnr-list"></i> <span>Dataset</span></a></li>
+                    <li>
+                        <a href="#subAlgoritma" data-toggle="collapse" class="collapse"><i class="lnr lnr-magic-wand"></i> <span>Algoritma</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                        <div id="subAlgoritma" class="collapse ">
+                            <ul class="nav">
+                                <!-- <li><a href="#" data-toggle="modal" data-target="#algoritmaSVM" class="">Support Vector Machine</a></li> -->
+                                <li><a href="#" data-toggle="modal" data-target="#algoritmaBACKPRO" class="">Backpropagation</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- END LEFT SIDEBAR -->
+
+{% include 'layouts/partial/modal/k_fold_svm.html' %}
+{% include 'layouts/partial/modal/k_fold_backpro.html' %}

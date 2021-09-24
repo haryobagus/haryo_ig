@@ -1,0 +1,84 @@
+{% extends 'layouts/app.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/datatables.min.css') }}">
+{% endblock %}
+
+{% block content %}
+    <!-- OVERVIEW -->
+    <div class="panel panel-headline">
+        <div class="panel-heading">
+            <div class="pull-right">
+                <a data-toggle="modal" data-target="#createUser" 
+                    class="btn btn-md btn-primary" 
+                    title="Create User.">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+            <h3 class="panel-title">User List</h3>
+        </div>
+    </div>
+    
+    <div class="panel">
+        <div class="panel-body">
+            <div class="table-responsive m-b-40">
+                <table class="table table-bordered datatable">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Username</th>
+                            <th class="text-center">Option</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in users %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ item['username'] }}</td>
+                                <td class="text-center">
+                                    <a class="btn btn-sm btn-warning" 
+                                        href="#" data-toggle="modal" data-target="#editUser_{{ item['id'] }}"
+                                        itle="Edit User.">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-danger" data-toggle="modal" 
+                                        data-target="#deleteUser_{{ item['id'] }}" 
+                                        href="#" title="Delete User.">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% for item in users %}
+        {% include 'pages/user/modal/delete.html' %}
+        {% include 'pages/user/modal/edit.html' %}
+    {% endfor %}
+    {% include 'pages/user/modal/create.html' %}
+{% endblock  %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.datatable').DataTable();
+        } );
+    </script>
+
+
+    <!-- Script for create modal -->
+    <script>
+        $(function() {
+            $('.username').on('keypress', function(e) {
+                if (e.which == 32){
+                    // console.log('No SPACE');
+                    return false;
+                }
+            });
+        });
+    </script>
+{% endblock %}

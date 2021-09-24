@@ -1,0 +1,26 @@
+<!-- Modal -->
+<div class="modal fade" id="createUsername" tabindex="-1" role="dialog" 
+    aria-labelledby="createUsernameLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h5 class="modal-title" id="exampleModalLabel">Tambah Username</h5>
+        </div>
+        <form action="/username/store" method="post">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" maxlength="50" class="form-control" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-empty" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

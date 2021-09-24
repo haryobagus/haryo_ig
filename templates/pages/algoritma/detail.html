@@ -1,0 +1,257 @@
+{% extends 'layouts/app.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/datatables.min.css') }}">
+{% endblock %}
+
+{% block content %}
+    <!-- OVERVIEW -->
+    <div class="panel panel-headline">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                {{ title }}
+            </h3>
+        </div>
+    </div>
+    
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Grafik</a></li>
+        <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">Analisis K-Fold</a></li>
+        <li role="presentation"><a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">20% Data Testing</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="tab1">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Persentase Per Username
+                    </h3>
+                </div>
+            </div>
+            
+            <div class="row">
+                {% for i in ig %}
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <img src="{{ url_for('static', filename='img/' + i) + '.png' }}" width="100%" alt="">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab2">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        {# <div class="pull-right">
+                            Rata-Rata Akurasi : {{ avg_acc }}%
+                        </div> #}
+                        K-Fold Cross Validation
+                    </h3>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <div class="pull-right">
+                            Akurasi : {{ avg_acc }}%
+                        </div>
+                        Seluruh K-Fold
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive m-b-40">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    {% for kl in kl_dict3.values() %}
+                                        <th> {{ kl["nama"] }} </th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for kl in kl_dict3.values() %}
+                                    <tr>
+                                        <td>{{ kl["nama"] }}</td>
+                                        {% for cm in kl["cm"] %}
+                                            <td>{{ cm }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <p>Precision :</p>
+                                <ul>
+                                    {% for kl in kl_dict3.values() %}
+                                        <li>{{ kl["nama"] }} : {{ kl["precision"] }}%</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <p>Recall :</p>
+                                <ul>
+                                    {% for kl in kl_dict3.values() %}
+                                        <li>{{ kl["nama"] }} : {{ kl["recall"] }}%</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <p>F1 Score</p>
+                                <ul>
+                                    {% for kl in kl_dict3.values() %}
+                                        <li>{{ kl["nama"] }} : {{ kl["f1_score"] }}%</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            {% for kfold_detail in kfold_cm %}
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <div class="pull-right">
+                                Akurasi : {{ scores[loop.index0]["accuracy_score"] }}%
+                            </div>
+                            K-Fold #{{loop.index}}
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive m-b-40">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        {% for kl in kfold_detail.values() %}
+                                            <th> {{ kl["nama"] }} </th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for kl in kfold_detail.values() %}
+                                        {% set outer_loop = loop %}
+                                        <tr>
+                                            <td>{{ kl["nama"] }}</td>
+                                            {% for cm in kl["cm"] %}
+                                                <td>{{ cm }}</td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <p>Precision :</p>
+                                    <ul>
+                                        {% for kl in kfold_detail.values() %}
+                                            <li>{{ kl["nama"] }} : {{ kl["precision"] }}%</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>Recall :</p>
+                                    <ul>
+                                        {% for kl in kfold_detail.values() %}
+                                            <li>{{ kl["nama"] }} : {{ kl["recall"] }}%</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="col-md-3">
+                                    <p>F1 Score</p>
+                                    <ul>
+                                        {% for kl in kfold_detail.values() %}
+                                            <li>{{ kl["nama"] }} : {{ kl["f1_score"] }}%</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tab3">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <div class=" pull-right">
+                            Akurasi : {{ best_fold["accuracy_score"] }}%
+                        </div>
+                        Data Testing
+                    </h3>
+                </div>
+            </div>
+            
+            <div class="panel" style="margin-top: 50px">
+                <div class="panel-body">
+                    <div class="table-responsive m-b-40">
+                        <table class="table table-bordered datatable">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Username</th>
+                                    <th>Datetime</th>
+                                    <th>Caption</th>
+                                    {# <th>Casefolding</th>
+                                    <th>Cleansing</th>
+                                    <th>Filtering</th> #}
+                                    {# <th>Stemming</th> #}
+                                    <th>Klasifikasi Aktual</th>
+                                    <th>Klasifikasi Prediksi</th>
+                                    <th class="text-center">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data_testing %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td>{{ item['username'] }}</td>
+                                        <th>{{ item['dtime'] }}</th>
+                                        <td>{{ item['caption'][0: 99]+"..." if item['caption']|length > 100 else item['caption'] }}</td>
+                                        {# <td>{{ item['casefolding'][0: 99]+"..." if item['casefolding']|length > 100 else item['casefolding'] }}</td>
+                                        <td>{{ item['cleansing'][0: 99]+"..." if item['cleansing']|length > 100 else item['cleansing'] }}</td>
+                                        <td>{{ item['filtering'][0: 99]+"..." if item['filtering']|length > 100 else item['filtering'] }}</td> #}
+                                        {# <td>{{ item['stemming'][0: 99]+"..." if item['stemming']|length > 100 else item['stemming'] }}</td> #}
+                                        <td>{{ kl_dict[item["id_klasifikasi"]]["nama"] }}</td>
+                                        <td>{{ kl_dict[item["y_pred"]]["nama"] }}</td>
+                                        <td class="text-center" width="12%">
+                                            <a class="btn btn-sm btn-info" data-toggle="modal" 
+                                                data-target="#detailData_{{ item['id'] }}" 
+                                                href="#" title="Detail Caption.">
+                                                <i class="fa fa-info"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for item in data_testing %}
+        {% include 'pages/dataset/modal/detail.html' %}
+    {% endfor %}
+{% endblock  %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.datatable').DataTable();
+        } );
+    </script>
+{% endblock %}

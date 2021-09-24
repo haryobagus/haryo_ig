@@ -1,0 +1,36 @@
+{% extends 'layouts/app.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/datatables.min.css') }}">
+{% endblock %}
+
+{% block content %}
+    <!-- OVERVIEW -->
+    <div class="panel panel-headline">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Hasil Prediksi
+            </h3>
+        </div>
+    </div>
+    
+    <div class="panel">
+        <div class="panel-body">
+            <p>Algoritma : {{ algoritma }} </p>
+            <p>Prediksi : {{ klasifikasi }} </p>
+            <p>Caption : </p>
+            <p>
+                {{ caption }}
+            </p>
+        </div>
+    </div>
+{% endblock  %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.datatable').DataTable();
+        } );
+    </script>
+{% endblock %}

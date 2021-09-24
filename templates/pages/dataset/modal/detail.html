@@ -1,0 +1,40 @@
+<!-- Modal -->
+<div class="modal fade" id="detailData_{{ item['id'] }}" tabindex="-1" role="dialog" 
+    aria-labelledby="detailDataLabel_{{ item['id'] }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h5 class="modal-title" id="exampleModalLabel">Detail Caption</h5>
+        </div>
+            <div class="modal-body">
+                <b>Caption : </b>
+                <p>{{ item['caption'] }}</p> <br>
+                <b>Casefolding : </b>
+                <p>{{ item['casefolding'] }}</p> <br>
+                <b>Cleansing : </b>
+                <p>{{ item['cleansing'] }}</p> <br>
+                <b>Filtering : </b>
+                <p>{{ item['filtering'] }}</p> <br>
+                <b>Stemming : </b>
+                <p>{{ item['stemming'] }}</p> <br>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-empty" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+               <!-- <b>Caption : </b>
+                <p>{{ item['caption'] }}</p> <br>
+                <b>Casefolding (Merubah huruf besar menjadi kecil) : </b>
+                <p>{{ item['casefolding'] }}</p> <br>
+                <b>Cleansing (Menghilangkan url, mention, hashtag, angka) : </b>
+                <p>{{ item['cleansing'] }}</p> <br>
+                <b>Filtering (Stopword removal): </b>
+                <p>{{ item['filtering'] }}</p> <br>
+                <b>Stemming (Merubah kata menjadi kata bentuk dasar) : </b>
+                <p>{{ item['stemming'] }}</p> <br>-->
