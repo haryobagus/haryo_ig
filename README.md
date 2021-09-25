@@ -98,6 +98,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 * [JVectorMap](http://jvectormap.com)
 * [Font Awesome](https://fontawesome.com)
 * [Template](https://github.com/othneildrew/Best-README-Template)
+* [Rapid API](https://rapidapi.com/premium-apis-premium-apis-default/api/instagram85/)
 
 
 
