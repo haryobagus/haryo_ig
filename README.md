@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
-  <h3 align="center">Klasifikasi Kategori Food and Beauty pada Captions Selebgram 
-Menggunakan Algoritma Backpropagation</h3>
+  <h3 align="center">Food and Beauty Category Classification In Celebgram
+Captions Using Backpropagation Algorithm</h3>
 
   <p align="center">
     <br />
